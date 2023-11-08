@@ -40,6 +40,7 @@ export class DataSourceConfigPage extends GrafanaPage {
   }
 
   async expectHealthCheckResultTextToContain(text: string) {
+    //TODO: add new selector and use it in grafana/ui
     return await this.expect(this.ctx.page.locator('[aria-label="Data source settings page Alert"]')).toContainText(
       text
     );

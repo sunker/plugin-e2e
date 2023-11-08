@@ -55,6 +55,7 @@ export class PanelEditPage extends GrafanaPage {
   }
 
   getQueryEditorEditorRow(refId: string): Locator {
+    //TODO: add new selector and use it in grafana/ui
     const locator = this.ctx.page.locator('[aria-label="Query editor row"]').filter({
       has: this.ctx.page.locator(`[aria-label="Query editor row title ${refId}"]`),
     });
@@ -71,11 +72,4 @@ export class PanelEditPage extends GrafanaPage {
       await this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'));
     }
   }
-
-  // async expectPanelData(json: string) {
-  //   await this.ctx.page.getByTestId(this.ctx.selectors.components.QueryTab.queryInspectorButton).click();
-  //   await this.ctx.page.waitForSelector(this.ctx.selectors.components.PanelEditor.Data.content);
-  //   const data = await this.ctx.page.textContent(this.ctx.selectors.components.PanelEditor.Data.content);
-  //   this.expect(data).toContain(json);
-  // }
 }

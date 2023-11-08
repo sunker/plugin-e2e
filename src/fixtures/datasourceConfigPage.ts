@@ -11,7 +11,6 @@ type DataSourceConfigPageFixture = TestFixture<
 const dataSourceConfigPage: DataSourceConfigPageFixture = async ({ request, page, grafanaVersion, selectors }, use) => {
   const configPage = new DataSourceConfigPage({ page, selectors, grafanaVersion, request }, expect);
   await use(configPage);
-  // await configPage.deleteDataSource();
 };
 
 export default dataSourceConfigPage;

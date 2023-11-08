@@ -23,6 +23,7 @@ export class ExplorePage extends GrafanaPage {
   }
 
   getQueryEditorEditorRow(refId: string): Locator {
+    //TODO: add new selector and use it in grafana/ui
     const locator = this.ctx.page.locator('[aria-label="Query editor row"]').filter({
       has: this.ctx.page.locator(`[aria-label="Query editor row title ${refId}"]`),
     });

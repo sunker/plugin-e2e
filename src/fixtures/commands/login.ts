@@ -4,9 +4,9 @@ import { PlaywrightCombinedArgs } from '../types';
 
 const authFile = 'playwright/.auth/user.json';
 
-type LoginCommand = TestFixture<() => Promise<void>, PluginFixture & PluginOptions & PlaywrightCombinedArgs>;
+type LoginFixture = TestFixture<() => Promise<void>, PluginFixture & PluginOptions & PlaywrightCombinedArgs>;
 
-const login: LoginCommand = async ({ request, httpCredentials }, use) => {
+const login: LoginFixture = async ({ request, httpCredentials }, use) => {
   await use(async () => {
     const data = httpCredentials ? { ...httpCredentials, user: 'admin' } : { user: 'admin', password: 'admin' };
     const loginReq = await request.post('/login', { data });

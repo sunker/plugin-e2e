@@ -5,12 +5,12 @@ import { DashboardPage } from '../../models/DashboardPage';
 import { Dashboard, ImportDashboardArgs } from '../../types';
 import { PlaywrightCombinedArgs } from '../types';
 
-type ImportDashboardCommand = TestFixture<
+type ImportDashboardFixture = TestFixture<
   (args: ImportDashboardArgs) => Promise<DashboardPage>,
   PluginFixture & PluginOptions & PlaywrightCombinedArgs
 >;
 
-const importDashboard: ImportDashboardCommand = async ({ request, page, selectors, grafanaVersion }, use) => {
+const importDashboard: ImportDashboardFixture = async ({ request, page, selectors, grafanaVersion }, use) => {
   await use(async (args) => {
     let buffer = await promises.readFile(process.cwd() + args.filePath, 'utf8');
     const dashboard = JSON.parse(buffer.toString());

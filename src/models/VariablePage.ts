@@ -9,6 +9,7 @@ export class VariablePage extends GrafanaPage {
   }
 
   async goto() {
+    //TODO: use selector instead
     await this.ctx.page.goto('dashboard/new?orgId=1&editview=templating', {
       waitUntil: 'networkidle',
     });
@@ -20,7 +21,7 @@ export class VariablePage extends GrafanaPage {
       const ctaSelector = this.getByTestIdOrAriaLabel(
         Dashboard.Settings.Variables.List.addVariableCTAV2('Add variable')
       );
-      await ctaSelector.waitFor({ timeout: 2000 });
+      await ctaSelector.waitFor();
       await ctaSelector.click();
     } catch (error) {
       await this.getByTestIdOrAriaLabel(Dashboard.Settings.Variables.List.newButton).click();
