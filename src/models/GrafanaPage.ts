@@ -39,7 +39,7 @@ export abstract class GrafanaPage {
   }
 
   async mockResourceResponse<T = any>(path: string, json: T) {
-    await this.ctx.page.route(`/api/datasources/uid/**/resources/${path}`, async (route) => {
+    await this.ctx.page.route(`${this.ctx.selectors.apis.DataSource.getResource}/${path}`, async (route) => {
       await route.fulfill({ json });
     });
   }
