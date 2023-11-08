@@ -1,13 +1,22 @@
 import { versionedComponents, versionedPages } from './versioned';
+import { versionedAPIs } from './versioned/apis';
 
 export type E2ESelectors = {
   pages: Pages;
   components: Components;
+  apis: APIs;
 };
 
 export type VersionedSelectors = {
   pages: typeof versionedPages;
   components: typeof versionedComponents;
+  apis: typeof versionedAPIs;
+};
+
+export type APIs = {
+  DataSource: {
+    getResource: string;
+  };
 };
 
 export type Components = {

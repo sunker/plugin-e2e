@@ -1,4 +1,5 @@
 import { TestFixture } from '@playwright/test';
+import { versionedAPIs } from 'src/e2e-selectors/versioned/apis';
 import { PluginFixture, PluginOptions } from '../api';
 import { E2ESelectors, resolveSelectors } from '../e2e-selectors';
 import { versionedComponents, versionedPages } from '../e2e-selectors/versioned';
@@ -11,6 +12,7 @@ const selectors: SelectorFixture = async ({ grafanaVersion }, use) => {
     {
       components: versionedComponents,
       pages: versionedPages,
+      apis: versionedAPIs,
     },
     grafanaVersion
   );

@@ -1,12 +1,14 @@
 import { resolveSelectors } from './resolver';
 import { VersionedSelectors } from './types';
 import { versionedComponents, versionedPages } from './versioned';
+import { versionedAPIs } from './versioned/apis';
 import { MIN_GRAFANA_VERSION } from './versioned/constants';
 
 const GRAFANA_VERSION = '10.2.0';
 let versionedSelectors: VersionedSelectors = {
   components: versionedComponents,
   pages: versionedPages,
+  apis: versionedAPIs,
 };
 const originalVersionedSelectors = versionedSelectors;
 describe('resolveSelectors', () => {
