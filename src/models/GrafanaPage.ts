@@ -7,7 +7,7 @@ import { PluginTestCtx } from '../types';
  * Exposes methods for locating Grafana specific elements on the page
  */
 export abstract class GrafanaPage {
-  constructor(protected readonly ctx: PluginTestCtx, protected readonly expect: Expect<any>) {}
+  constructor(public readonly ctx: PluginTestCtx, protected readonly expect: Expect<any>) {}
 
   /**
    * Get a locator for a Grafana element by data-testid or aria-label

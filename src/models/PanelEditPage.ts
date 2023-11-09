@@ -1,17 +1,19 @@
-import { Expect, Locator } from '@playwright/test';
+const lte = require('semver/functions/lte');
+import { Expect, Locator, Response } from '@playwright/test';
 
-import { PluginTestCtx, Visualization } from '../types';
+import { PanelError, PluginTestCtx, Visualization } from '../types';
 import { DataSourcePicker } from './DataSourcePicker';
 import { GrafanaPage } from './GrafanaPage';
 import { TablePanel } from './TablePanel';
 import { TimeRange } from './TimeRange';
 import { TimeSeriesPanel } from './TimeSeriesPanel';
 
-export class PanelEditPage extends GrafanaPage {
+export class PanelEditPage extends GrafanaPage implements PanelError {
   datasource: DataSourcePicker;
   tablePanel: TablePanel;
   timeRange: TimeRange;
   timeSeriesPanel: TimeSeriesPanel;
+  lastPanelResponse: Response | undefined;
 
   constructor(ctx: PluginTestCtx, expect: Expect<any>) {
     super(ctx, expect);
@@ -63,13 +65,25 @@ export class PanelEditPage extends GrafanaPage {
     return locator;
   }
 
-  async refreshDashboard(waitForQueryRequest = false) {
+  getPanelError() {
+    const grafanaVersion = this.ctx.grafanaVersion;
+    let selector = this.ctx.selectors.components.Panels.Panel.status('error');
+    if (lte(grafanaVersion, '9.4.3')) {
+      selector = this.ctx.selectors.components.Panels.Panel.headerCornerInfo('error');
+    } else if (lte(grafanaVersion, '10.2.0')) {
+      selector = 'Panel status';
+    }
+
+    return this.getByTestIdOrAriaLabel(selector);
+  }
+
+  async refreshPanel() {
+    const resPromise = this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'));
     // in older versions of grafana, the refresh button is rendered twice. this is a workaround to click the correct one
     await this.getByTestIdOrAriaLabel(this.ctx.selectors.components.PanelEditor.General.content)
       .locator(`selector=${this.ctx.selectors.components.RefreshPicker.runButtonV2}`)
       .click();
-    if (waitForQueryRequest) {
-      await this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'));
-    }
+
+    return await resPromise;
   }
 }

@@ -42,6 +42,12 @@ export interface GrafanaLocator extends Locator {
   getByTestIdOrAriaLabel(selector: string): GrafanaLocator;
 }
 
+export interface PanelError {
+  ctx: PluginTestCtx;
+  getPanelError: () => Locator;
+}
+
+
 /**
  * Panel visualization types
  */
