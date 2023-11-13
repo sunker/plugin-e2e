@@ -10,7 +10,7 @@ const grafanaVersion: GrafanaVersion = async ({ page }, use) => {
   }
   await page.goto('/');
   const grafanaVersion: string = await page.evaluate('window.grafanaBootData.settings.buildInfo.version');
-  await use(grafanaVersion.replace('-pre', ''));
+  await use(grafanaVersion.replace(/\-.*/, ''));
 };
 
 export default grafanaVersion;

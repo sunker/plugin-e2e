@@ -1,5 +1,5 @@
 const lte = require('semver/functions/lte');
-import { Expect, Locator, Response } from '@playwright/test';
+import { Expect, Locator } from '@playwright/test';
 
 import { PanelError, PluginTestCtx, Visualization } from '../types';
 import { DataSourcePicker } from './DataSourcePicker';
@@ -13,7 +13,6 @@ export class PanelEditPage extends GrafanaPage implements PanelError {
   tablePanel: TablePanel;
   timeRange: TimeRange;
   timeSeriesPanel: TimeSeriesPanel;
-  lastPanelResponse: Response | undefined;
 
   constructor(ctx: PluginTestCtx, expect: Expect<any>) {
     super(ctx, expect);
@@ -70,7 +69,7 @@ export class PanelEditPage extends GrafanaPage implements PanelError {
     let selector = this.ctx.selectors.components.Panels.Panel.status('error');
     if (lte(grafanaVersion, '9.4.3')) {
       selector = this.ctx.selectors.components.Panels.Panel.headerCornerInfo('error');
-    } else if (lte(grafanaVersion, '10.2.0')) {
+    } else if (lte(grafanaVersion, '10.1.5')) {
       selector = 'Panel status';
     }
 
@@ -84,6 +83,6 @@ export class PanelEditPage extends GrafanaPage implements PanelError {
       .locator(`selector=${this.ctx.selectors.components.RefreshPicker.runButtonV2}`)
       .click();
 
-    return await resPromise;
+    return resPromise;
   }
 }

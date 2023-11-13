@@ -66,12 +66,13 @@ test('fill in new query, run it and assert on result in timeseries panel', async
   await panelEditPage.refreshPanel();
   await panelEditPage.timeSeriesPanel.expectToContainLegendLabels(['eventid', 'dateid']);
 });
+
 test('fill in bad query, run it and assert that panel has error', async ({ panelEditPage, page }) => {
-  await panelEditPage.mockQueryDataResponse(QUERY_DATA_ERROR_RESPONSE);
   await panelEditPage.datasource.set(ds.name!);
   const queryEditorRow = await panelEditPage.getQueryEditorRow('A');
   await panelEditPage.getCodeEditor(queryEditorRow).then((l) => l.click());
   await page.keyboard.insertText('!!SELECT');
+  await panelEditPage.mockQueryDataResponse(QUERY_DATA_ERROR_RESPONSE);
   await panelEditPage.refreshPanel();
   await expect(panelEditPage).toHavePanelError();
 });
