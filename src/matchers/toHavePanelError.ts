@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { PanelError } from 'src/types';
+import { PanelError } from '../types';
 
 const toHavePanelError = async (panelError: PanelError, options?: { timeout?: number }) => {
   let pass = true;
