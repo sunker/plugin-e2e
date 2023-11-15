@@ -1,13 +1,14 @@
+const lte = require('semver/functions/lte');
 import { Expect, Locator } from '@playwright/test';
 
-import { PluginTestCtx, Visualization } from '../types';
+import { PanelError, PluginTestCtx, RequestOptions, Visualization } from '../types';
 import { DataSourcePicker } from './DataSourcePicker';
 import { GrafanaPage } from './GrafanaPage';
 import { TablePanel } from './TablePanel';
 import { TimeRange } from './TimeRange';
 import { TimeSeriesPanel } from './TimeSeriesPanel';
 
-export class PanelEditPage extends GrafanaPage {
+export class PanelEditPage extends GrafanaPage implements PanelError {
   datasource: DataSourcePicker;
   tablePanel: TablePanel;
   timeRange: TimeRange;
@@ -63,13 +64,25 @@ export class PanelEditPage extends GrafanaPage {
     return locator;
   }
 
-  async refreshDashboard(waitForQueryRequest = false) {
+  getPanelError() {
+    const grafanaVersion = this.ctx.grafanaVersion;
+    let selector = this.ctx.selectors.components.Panels.Panel.status('error');
+    if (lte(grafanaVersion, '9.4.3')) {
+      selector = this.ctx.selectors.components.Panels.Panel.headerCornerInfo('error');
+    } else if (lte(grafanaVersion, '10.1.5')) {
+      selector = 'Panel status';
+    }
+
+    return this.getByTestIdOrAriaLabel(selector);
+  }
+
+  async refreshPanel(options?: RequestOptions) {
+    const responsePromise = this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'), options);
     // in older versions of grafana, the refresh button is rendered twice. this is a workaround to click the correct one
     await this.getByTestIdOrAriaLabel(this.ctx.selectors.components.PanelEditor.General.content)
       .locator(`selector=${this.ctx.selectors.components.RefreshPicker.runButtonV2}`)
       .click();
-    if (waitForQueryRequest) {
-      await this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'));
-    }
+
+    return responsePromise;
   }
 }

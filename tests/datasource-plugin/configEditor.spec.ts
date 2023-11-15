@@ -1,5 +1,5 @@
 import randomstring from 'randomstring';
-import { test } from '../../src';
+import { expect, test } from '../../src';
 import { ds } from './datasource';
 import { CLUSTERS_RESPONSE } from './mocks/resourceResponse';
 
@@ -14,8 +14,7 @@ test('valid aws-sdk-auth config', async ({ dataSourceConfigPage, page }) => {
 
   await dataSourceConfigPage.getByTestIdOrAriaLabel('data-testid database').fill(ds.jsonData.database!);
   await dataSourceConfigPage.getByTestIdOrAriaLabel('data-testid dbuser').fill(ds.jsonData.dbUser!);
-  await dataSourceConfigPage.saveAndTest();
-  await dataSourceConfigPage.expectHealthCheckResultTextToContain('Data source is working');
+  await expect(dataSourceConfigPage.saveAndTest()).toBeOK();
 });
 
 test('valid keys config', async ({ dataSourceConfigPage, page }) => {

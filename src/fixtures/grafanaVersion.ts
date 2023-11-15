@@ -8,9 +8,9 @@ const grafanaVersion: GrafanaVersion = async ({ page }, use) => {
   if (process.env.GRAFANA_VERSION) {
     return await use(process.env.GRAFANA_VERSION);
   }
-  await page.goto('/', { waitUntil: 'networkidle' });
+  await page.goto('/');
   const grafanaVersion: string = await page.evaluate('window.grafanaBootData.settings.buildInfo.version');
-  await use(grafanaVersion);
+  await use(grafanaVersion.replace(/\-.*/, ''));
 };
 
 export default grafanaVersion;

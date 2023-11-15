@@ -1,5 +1,5 @@
 import { Expect, Locator } from '@playwright/test';
-import { PluginTestCtx } from '../types';
+import { PluginTestCtx, RequestOptions } from '../types';
 import { DataSourcePicker } from './DataSourcePicker';
 import { GrafanaPage } from './GrafanaPage';
 import { TablePanel } from './TablePanel';
@@ -31,7 +31,11 @@ export class ExplorePage extends GrafanaPage {
     return locator;
   }
 
-  async runQuery() {
+  async runQuery(options?: RequestOptions) {
+    const responsePromise = this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'), options);
+    // in older versions of grafana, the refresh button is rendered twice. this is a workaround to click the correct one
     await this.ctx.page.getByTestId(this.ctx.selectors.components.RefreshPicker.runButtonV2).click();
+
+    return responsePromise;
   }
 }

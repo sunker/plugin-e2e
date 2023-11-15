@@ -1,6 +1,7 @@
-import { test as base, selectors } from '@playwright/test';
+import { test as base, expect as baseExpect, selectors } from '@playwright/test';
 import { E2ESelectors } from './e2e-selectors/types';
 import fixtures from './fixtures';
+import matchers from './matchers';
 import {
   AnnotationEditPage,
   DashboardPage,
@@ -146,4 +147,6 @@ export const test = base.extend<PluginFixture & PluginOptions>(fixtures);
 
 selectors.register('selector', grafanaSelectorEngine);
 
-export { expect, selectors } from '@playwright/test';
+export const expect = baseExpect.extend(matchers);
+
+export { selectors } from '@playwright/test';

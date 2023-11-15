@@ -170,3 +170,27 @@ export const QUERY_DATA_TIMESERIES_RESPONSE = {
     },
   },
 };
+
+export const QUERY_DATA_ERROR_RESPONSE = {
+  results: {
+    A: {
+      error: 'error querying the database: error executing query: ERROR: syntax error at or near "!"\n  Position: 1',
+      status: 500,
+      frames: [
+        {
+          schema: {
+            name: 'A',
+            refId: 'A',
+            meta: {
+              executedQueryString: '!SELECT eventname FROM event ORDER BY eventname ASC LIMIT 1',
+            },
+            fields: [],
+          },
+          data: {
+            values: [],
+          },
+        },
+      ],
+    },
+  },
+};

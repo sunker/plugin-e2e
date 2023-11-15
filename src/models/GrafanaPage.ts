@@ -7,7 +7,7 @@ import { PluginTestCtx } from '../types';
  * Exposes methods for locating Grafana specific elements on the page
  */
 export abstract class GrafanaPage {
-  constructor(protected readonly ctx: PluginTestCtx, protected readonly expect: Expect<any>) {}
+  constructor(public readonly ctx: PluginTestCtx, protected readonly expect: Expect<any>) {}
 
   /**
    * Get a locator for a Grafana element by data-testid or aria-label
@@ -32,9 +32,9 @@ export abstract class GrafanaPage {
     return this.getByTestIdOrAriaLabel(this.ctx.selectors.components.CodeEditor.container, root);
   }
 
-  async mockQueryDataResponse<T = any>(json: T) {
+  async mockQueryDataResponse<T = any>(json: T, status = 200) {
     await this.ctx.page.route('*/**/api/ds/query*', async (route) => {
-      await route.fulfill({ json });
+      await route.fulfill({ json, status });
     });
   }
 

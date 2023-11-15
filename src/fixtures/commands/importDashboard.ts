@@ -1,5 +1,6 @@
 import { expect, TestFixture } from '@playwright/test';
 import { promises } from 'fs';
+import path from 'path';
 import { PluginFixture, PluginOptions } from '../../api';
 import { DashboardPage } from '../../models/DashboardPage';
 import { Dashboard, ImportDashboardArgs } from '../../types';
@@ -12,18 +13,21 @@ type ImportDashboardFixture = TestFixture<
 
 const importDashboard: ImportDashboardFixture = async ({ request, page, selectors, grafanaVersion }, use) => {
   await use(async (args) => {
-    let buffer = await promises.readFile(process.cwd() + args.filePath, 'utf8');
+    let buffer = await promises.readFile(path.join(process.cwd(), args.filePath), 'utf8');
     const dashboard = JSON.parse(buffer.toString());
     const importDashboardReq = await request.post('/api/dashboards/import', {
       data: {
-        dashboard,
+        dashboard: {
+          ...dashboard,
+          id: null,
+        },
         overwrite: true,
         inputs: [],
-        folderId: 0,
+        folderUid: '',
       },
     });
-    const text = await await importDashboardReq.text();
-    expect.soft(importDashboardReq.ok(), `Failed to import dashboard: ${text}`).toBeTruthy();
+    const text = await importDashboardReq.text();
+    expect(importDashboardReq.ok(), `Failed to import dashboard: ${text}`).toBeTruthy();
     const dashboardJson: Dashboard = await importDashboardReq.json();
     const dashboardPage = new DashboardPage({ request, page, selectors, grafanaVersion }, expect, dashboardJson.uid);
     await dashboardPage.goto();

@@ -34,7 +34,7 @@ export const createDataSourceViaAPI = async (
   const status = await createDsReq.status();
   const text = await createDsReq.text();
   if (status === 200) {
-    console.log('Data source created: ', text);
+    console.log('Data source created: ', name);
   } else if (status === 409) {
     console.log('Data source already exists: ', text);
   } else {

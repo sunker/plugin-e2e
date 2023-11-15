@@ -36,7 +36,7 @@ export class DataSourceConfigPage extends GrafanaPage {
 
   async saveAndTest() {
     await this.getByTestIdOrAriaLabel(this.ctx.selectors.pages.DataSource.saveAndTest).click();
-    await this.ctx.page.waitForResponse((resp) => resp.url().includes('/health'));
+    return this.ctx.page.waitForResponse((resp) => resp.url().includes('/health'));
   }
 
   async expectHealthCheckResultTextToContain(text: string) {

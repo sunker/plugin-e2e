@@ -42,6 +42,11 @@ export interface GrafanaLocator extends Locator {
   getByTestIdOrAriaLabel(selector: string): GrafanaLocator;
 }
 
+export interface PanelError {
+  ctx: PluginTestCtx;
+  getPanelError: () => Locator;
+}
+
 /**
  * Panel visualization types
  */
@@ -119,4 +124,14 @@ export type CreateDataSourceArgs = {
    * The data source to create
    */
   datasource: DataSource;
+};
+
+export type RequestOptions = {
+  /**
+   * Maximum wait time in milliseconds, defaults to 30 seconds, pass `0` to disable the timeout. The default value can
+   * be changed by using the
+   * [browserContext.setDefaultTimeout(timeout)](https://playwright.dev/docs/api/class-browsercontext#browser-context-set-default-timeout)
+   * or [page.setDefaultTimeout(timeout)](https://playwright.dev/docs/api/class-page#page-set-default-timeout) methods.
+   */
+  timeout?: number;
 };

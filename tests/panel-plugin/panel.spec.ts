@@ -4,13 +4,13 @@ import { DashboardPage, expect, test } from '../../src';
 test.describe(() => {
   test.describe.configure({ mode: 'parallel' });
   test('add a clock panel in new dashboard and set time format to "12 hour"', async ({
-    emptyPanelEditPage,
+    panelEditPage,
     selectors,
     page,
   }) => {
-    await emptyPanelEditPage.setVisualization('Clock');
-    await emptyPanelEditPage.setPanelTitle('Clock panel test');
-    await emptyPanelEditPage.getByTestIdOrAriaLabel(selectors.components.OptionsGroup.group('Clock')).click();
+    await panelEditPage.setVisualization('Clock');
+    await panelEditPage.setPanelTitle('Clock panel test');
+    await panelEditPage.getByTestIdOrAriaLabel(selectors.components.OptionsGroup.group('Clock')).click();
     await page.getByText('12 Hour').click();
     await expect(page.getByRole('heading', { name: /.*[APap][mM]$/ })).toBeVisible();
   });
