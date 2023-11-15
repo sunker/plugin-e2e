@@ -1,0 +1,15 @@
+services:
+  grafana:
+    image: grafana/${GRAFANA_IMAGE:-grafana-enterprise}:${GRAFANA_VERSION:-main}
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-redshift-datasource
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
+      - GF_AUTH_ANONYMOUS_ORG_ID=1
+    ports:
+      - 3001:3000/tcp
+    volumes:
+      - /Users/erik/code/grafana/sandbox/redshift-datasource/dist:/var/lib/grafana/plugins/grafana-redshift-datasource
+      - ./provisioning:/etc/grafana/provisioning
