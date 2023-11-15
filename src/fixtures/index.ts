@@ -6,9 +6,9 @@ import login from './commands/login';
 import readProvision from './commands/readProvision';
 import dataSourceConfigPage from './datasourceConfigPage';
 import emptyDashboardPage from './emptyDashboardPage';
-import emptyPanelEditPage from './emptyPanelEditPage';
 import explorePage from './explorePage';
 import grafanaVersion from './grafanaVersion';
+import panelEditPage from './panelEditPage';
 import selectors from './selectors';
 import variableEditPage from './variableEditPage';
 
@@ -21,7 +21,7 @@ export default {
   annotationEditPage,
   dataSourceConfigPage,
   emptyDashboardPage,
-  emptyPanelEditPage,
+  panelEditPage,
   explorePage,
   grafanaVersion,
   selectors,

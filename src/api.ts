@@ -55,7 +55,7 @@ export type PluginFixture = {
    * Use {@link ExplorePage.getQueryEditorEditorRow} to retrieve the query
    * editor row locator for a given query refId
    */
-  emptyPanelEditPage: PanelEditPage;
+  panelEditPage: PanelEditPage;
 
   /**
    * Isolated {@link VariableEditPage} instance for each test.
