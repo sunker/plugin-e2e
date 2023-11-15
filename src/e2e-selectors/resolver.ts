@@ -1,5 +1,7 @@
 const semver = require('semver');
-import { E2ESelectors, VersionedSelectors } from './types';
+import { E2ESelectors } from './types';
+import { VersionedSelectors } from './versioned/types';
+
 const processSelectors = (
   selectors: E2ESelectors,
   versionedSelectors: VersionedSelectors,
@@ -21,7 +23,7 @@ const processSelectors = (
         let validVersion = sorted[0];
         for (let index = 0; index < sorted.length; index++) {
           const version = sorted[index];
-          if (semver.gte(grafanaVersion.replace('-pre', ''), version)) {
+          if (semver.gte(grafanaVersion, version)) {
             validVersion = version;
             break;
           }
@@ -40,8 +42,14 @@ const processSelectors = (
   return selectors;
 };
 
-export const resolveSelectors = (versionedSelectors: VersionedSelectors, version: string): E2ESelectors => {
+/**
+ * Resolves selectors based on the Grafana version
+ *
+ * If the selector has multiple versions, the last version that is less
+ * than or equal to the Grafana version will be returned.
+ * If the selector doesn't have a version, it will be returned as is.
+ */
+export const resolveSelectors = (versionedSelectors: VersionedSelectors, grafanaVersion: string): E2ESelectors => {
   const selectors: E2ESelectors = {} as E2ESelectors;
-  const s = processSelectors(selectors, versionedSelectors, version);
-  return s;
+  return processSelectors(selectors, versionedSelectors, grafanaVersion.replace(/\-.*/, ''));
 };

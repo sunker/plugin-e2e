@@ -1,8 +1,8 @@
 import { resolveSelectors } from './resolver';
-import { VersionedSelectors } from './types';
 import { versionedComponents, versionedPages } from './versioned';
 import { versionedAPIs } from './versioned/apis';
 import { MIN_GRAFANA_VERSION } from './versioned/constants';
+import { VersionedSelectors } from './versioned/types';
 
 const GRAFANA_VERSION = '10.2.0';
 let versionedSelectors: VersionedSelectors = {
@@ -22,7 +22,7 @@ describe('resolveSelectors', () => {
     expect(selectors.components.PanelEditor.General.content).toBe('Panel editor content');
   });
 
-  test('returns the right selector value when is has multiple versions', () => {
+  test('returns the right selector value when it has multiple versions', () => {
     versionedSelectors.components.CodeEditor.container = {
       '10.3.0': 'data-testid Code editor container',
       [MIN_GRAFANA_VERSION]: 'Code editor container',
