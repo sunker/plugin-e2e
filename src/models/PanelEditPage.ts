@@ -54,7 +54,7 @@ export class PanelEditPage extends GrafanaPage {
     await this.ctx.page.getByTestId(this.ctx.selectors.components.PanelEditor.applyButton).click();
   }
 
-  getQueryEditorEditorRow(refId: string): Locator {
+  getQueryEditorRow(refId: string): Locator {
     //TODO: add new selector and use it in grafana/ui
     const locator = this.ctx.page.locator('[aria-label="Query editor row"]').filter({
       has: this.ctx.page.locator(`[aria-label="Query editor row title ${refId}"]`),
