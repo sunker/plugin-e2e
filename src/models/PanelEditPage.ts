@@ -1,7 +1,7 @@
 const lte = require('semver/functions/lte');
 import { Expect, Locator } from '@playwright/test';
 
-import { PanelError, PluginTestCtx, Visualization } from '../types';
+import { PanelError, PluginTestCtx, RequestOptions, Visualization } from '../types';
 import { DataSourcePicker } from './DataSourcePicker';
 import { GrafanaPage } from './GrafanaPage';
 import { TablePanel } from './TablePanel';
@@ -76,13 +76,13 @@ export class PanelEditPage extends GrafanaPage implements PanelError {
     return this.getByTestIdOrAriaLabel(selector);
   }
 
-  async refreshPanel() {
-    const resPromise = this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'));
+  async refreshPanel(options?: RequestOptions) {
+    const responsePromise = this.ctx.page.waitForResponse((resp) => resp.url().includes('/query'), options);
     // in older versions of grafana, the refresh button is rendered twice. this is a workaround to click the correct one
     await this.getByTestIdOrAriaLabel(this.ctx.selectors.components.PanelEditor.General.content)
       .locator(`selector=${this.ctx.selectors.components.RefreshPicker.runButtonV2}`)
       .click();
 
-    return resPromise;
+    return responsePromise;
   }
 }

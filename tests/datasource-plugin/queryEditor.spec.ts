@@ -72,7 +72,7 @@ test('fill in bad query, run it and assert that panel has error', async ({ panel
   const queryEditorRow = await panelEditPage.getQueryEditorRow('A');
   await panelEditPage.getCodeEditor(queryEditorRow).then((l) => l.click());
   await page.keyboard.insertText('!!SELECT');
-  await panelEditPage.mockQueryDataResponse(QUERY_DATA_ERROR_RESPONSE);
-  await panelEditPage.refreshPanel();
+  await panelEditPage.mockQueryDataResponse(QUERY_DATA_ERROR_RESPONSE, 400);
+  await expect(panelEditPage.refreshPanel()).not.toBeOK();
   await expect(panelEditPage).toHavePanelError();
 });

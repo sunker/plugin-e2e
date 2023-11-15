@@ -1,3 +1,4 @@
+import { Response } from '@playwright/test';
 import { PanelError } from './types';
 
 export { expect, test, type PluginFixture, type PluginOptions } from './api';
@@ -17,6 +18,7 @@ declare global {
       [r]: R;
       [t]: T;
       toHavePanelError(this: Matchers<unknown, PanelError>): R;
+      toBeOK(this: Matchers<unknown, Promise<Response>>): R;
     }
   }
 }

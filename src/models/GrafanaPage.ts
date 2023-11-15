@@ -32,9 +32,9 @@ export abstract class GrafanaPage {
     return this.getByTestIdOrAriaLabel(this.ctx.selectors.components.CodeEditor.container, root);
   }
 
-  async mockQueryDataResponse<T = any>(json: T) {
+  async mockQueryDataResponse<T = any>(json: T, status = 200) {
     await this.ctx.page.route('*/**/api/ds/query*', async (route) => {
-      await route.fulfill({ json });
+      await route.fulfill({ json, status });
     });
   }
 
